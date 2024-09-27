@@ -1,3 +1,4 @@
+import Chat from "@/components/Chat";
 import CurrentRound from "@/components/CurrentRound";
 
 export default function Home() {
@@ -11,7 +12,9 @@ export default function Home() {
         <div className="col-span-1">
           <CurrentRound />
         </div>
-        <div className="col-span-1 bg-blue-500 ">Chat</div>
+        <div className="col-span-1">
+          <Chat />
+        </div>
       </div>
     </div>
   );
