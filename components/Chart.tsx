@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   LineChart,
   Line,
@@ -7,6 +7,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  Legend,
 } from "recharts";
 
 const generateData = (maxValue) => {
@@ -65,15 +66,32 @@ export default function Charts({}) {
   const [value, setValue] = React.useState(0);
   const data = generateData(value);
 
+  const counterRef = useRef(null);
+  const startCount = useRef(0);
+  const target = value;
+
+  useEffect(() => {
+    const incrementCount = () => {
+      if (startCount.current < target) {
+        // Değeri artır
+        startCount.current += 0.025; // Hızı burada ayarlayabilirsin
+        // DOM elemanını güncelle
+        if (counterRef.current) {
+          counterRef.current.innerText =
+            Math.min(startCount.current.toFixed(1), target) + " x";
+        }
+        requestAnimationFrame(incrementCount);
+      }
+    };
+
+    requestAnimationFrame(incrementCount);
+    return () => {
+      startCount.current = target;
+    };
+  }, [target]);
+
   return (
     <div className="bg-[#242A39] rounded-lg p-8 border border-gray-700  ">
-      <h2
-        onClick={() => setValue(7)}
-        className="text-[#F3586A] font-bold text-7xl text-center pt-8 "
-      >
-        {value}x
-      </h2>
-
       <ResponsiveContainer width={"100%"} height={400}>
         <LineChart
           width={800}
@@ -89,11 +107,31 @@ export default function Charts({}) {
               strokeWidth={4}
               // type="bump"
               type="monotone"
-              legendType="circle"
               animationDuration={2000}
               animationEasing="ease-in-out"
             />
           )}
+          <Legend
+            verticalAlign="top"
+            height={36}
+            content={(props) => {
+              return (
+                <div className="flex items-center justify-center">
+                  {/* <div
+                    className="w-3 h-3 rounded-full bg-[#F46161] mr-2"
+                    style={{ boxShadow: "0px 0px 10px #F46161" }}
+                  ></div> */}
+                  <h2
+                    ref={counterRef}
+                    onClick={() => setValue(7)}
+                    className="text-[#F3586A] font-bold text-7xl text-center pt-8 "
+                  >
+                    0 x
+                  </h2>
+                </div>
+              );
+            }}
+          />
           <XAxis
             dataKey="name"
             ticks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
