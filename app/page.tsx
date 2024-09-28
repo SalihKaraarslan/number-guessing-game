@@ -7,8 +7,8 @@ import Welcome from "@/components/Welcome";
 
 export default function Home() {
   return (
-    <div className="h-[500px] w-full">
-      <div className="h-[500px] grid grid-cols-3 gap-4 ">
+    <div className=" w-full">
+      <div className=" grid grid-cols-3 gap-4 ">
         <div className="col-span-1">
           {/* <Welcome /> */}
           <CurrentRound />
