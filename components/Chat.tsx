@@ -44,12 +44,35 @@ export default function Chat() {
               I could play this game for hours!
             </span>
           </div>
+          <div className="flex items-start">
+            <span className="bg-purple-700 text-xs px-1 rounded mr-2">
+              CPU 1:
+            </span>
+            <span className="bg-gray-700 text-sm px-2 py-1 rounded-md">
+              hi guys
+            </span>
+          </div>
+          <div className="flex items-start">
+            <span className="bg-purple-700 text-xs px-1 rounded mr-2">
+              CPU 2:
+            </span>
+            <span className="bg-gray-700 text-sm px-2 py-1 rounded-md">
+              Hiiiiiii men
+            </span>
+          </div>
+          <div className="flex items-start">
+            <span className="bg-purple-700 text-xs px-1 rounded mr-2">
+              CPU 1:
+            </span>
+            <span className="bg-gray-700 text-sm px-2 py-1 rounded-md">
+              I could play this game for hours!
+            </span>
+          </div>
         </div>
-        <div className="bg-gray-800 p-2 flex items-center">
+        <div className="bg-[#37404E] p-3 flex items-center">
           <input
             type="text"
-            className="flex-grow bg-gray-700 text-white border-none rounded-md px-3 py-1 mr-2 focus:outline-none focus:ring-2 focus:ring-pink-500"
-            placeholder="Type your message..."
+            className="flex-grow bg-[#1A232C] text-white border-none rounded-md px-3 py-2 mr-2 focus:outline-none focus:ring-2 "
           />
           <button className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-1 rounded-md whitespace-nowrap transition duration-200">
             Start

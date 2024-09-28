@@ -1,5 +1,5 @@
 import Chat from "@/components/Chat";
-import CurrentRound from "@/components/CurrentRound";
+import Ranking from "@/components/Ranking";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       </div>
       <div className=" grid grid-cols-2 my-6 gap-4 ">
         <div className="col-span-1">
-          <CurrentRound />
+          <Ranking />
         </div>
         <div className="col-span-1">
           <Chat />
