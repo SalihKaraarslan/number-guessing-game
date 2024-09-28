@@ -75,7 +75,7 @@ export default function Chat() {
             className="flex-grow bg-[#1A232C] text-white border-none rounded-md px-3 h-10 mr-2 focus:outline-none focus:ring-2 "
           />
           <button className="w-24  h-10 bg-gradient-to-r from-[#E74189] to-[#FC6953] text-white font-semibold text-md rounded-md hover:opacity-70 transition-opacity duration-300">
-            Start
+            Send
           </button>
         </div>
       </div>
