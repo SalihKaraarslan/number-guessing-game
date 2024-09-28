@@ -72,9 +72,9 @@ export default function Chat() {
         <div className="bg-[#37404E] p-3 flex items-center">
           <input
             type="text"
-            className="flex-grow bg-[#1A232C] text-white border-none rounded-md px-3 py-2 mr-2 focus:outline-none focus:ring-2 "
+            className="flex-grow bg-[#1A232C] text-white border-none rounded-md px-3 h-10 mr-2 focus:outline-none focus:ring-2 "
           />
-          <button className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-1 rounded-md whitespace-nowrap transition duration-200">
+          <button className="w-24  h-10 bg-gradient-to-r from-[#E74189] to-[#FC6953] text-white font-semibold text-md rounded-md hover:opacity-70 transition-opacity duration-300">
             Start
           </button>
         </div>

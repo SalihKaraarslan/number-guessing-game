@@ -1,3 +1,4 @@
+import Chart from "@/components/Chart";
 import Chat from "@/components/Chat";
 import CurrentRound from "@/components/CurrentRound";
 import Ranking from "@/components/Ranking";
@@ -13,7 +14,9 @@ export default function Home() {
           <CurrentRound />
           <SpeedSlider />
         </div>
-        <div className="col-span-2  bg-blue-500">salih</div>
+        <div className="col-span-2 ">
+          <Chart />
+        </div>
       </div>
       <div className=" grid grid-cols-2 my-6 gap-4 ">
         <div className="col-span-1">
