@@ -70,7 +70,7 @@ export const GlobalContextProvider = ({
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [showRanking, setShowRanking] = useState<boolean>(false);
   const [resultValue, setResultValue] = useState<number>(0.0);
-  const [speed, setSpeed] = useState<number>(1);
+  const [speed, setSpeed] = useState<number>(2);
   const [user, setUser] = useState<User>({
     id: null,
     userName: null,

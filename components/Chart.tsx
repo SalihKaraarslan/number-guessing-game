@@ -30,6 +30,7 @@ export default function Charts() {
     setGameStarted,
     setShowRanking,
     speed,
+    setResultValue,
   } = useGlobalContext();
 
   const data: Data[] = generateData(Number(resultValue).toFixed(0));
@@ -112,7 +113,11 @@ export default function Charts() {
       updateTotals(Number(resultValue));
       setShowRanking(true);
       setGameStarted(false);
-    }, animationDuration());
+      const replay = confirm("Try Again?");
+      if (replay) {
+        setResultValue(0.0);
+      }
+    }, animationDuration() + 100);
 
     return () => clearTimeout(timeout);
   }, [
