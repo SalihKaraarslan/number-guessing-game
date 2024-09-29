@@ -1,37 +1,65 @@
+/* eslint-disable padding-line-between-statements */
 "use client";
 import { useState } from "react";
 import Input from "./Input";
 import { FaTrophy } from "react-icons/fa6";
 import { useGlobalContext } from "@/app/Context/store";
-import { getRandomDecimal } from "@/lib/utils";
 
 export default function CurrentRound() {
-  const { user, setUser, userList, setGameStarted, showRanking, resultValue } =
-    useGlobalContext();
+  const {
+    user,
+    setUser,
+    userList,
+    setGameStarted,
+    showRanking,
+    resultValue,
+    setRound,
+  } = useGlobalContext();
 
   const [points, setPoints] = useState(100);
   const [multiplier, setMultiplier] = useState(2.15);
+  const total = userList.filter(
+    (player) => player.userName === user.userName
+  )[0]?.total;
 
   const sortedUserList = userList.sort((a, b) => a.id - b.id);
 
   const handleClickStart = () => {
+    if (points === 0 || multiplier === 0) {
+      alert("Please enter valid points and multiplier");
+    }
+    if (total == 0) {
+      const replay = confirm("Game Over! Play Again?");
+      if (replay) {
+        location.reload();
+      }
+      return;
+    }
     setUser({
       ...user,
       point: points,
       multiplier: multiplier,
     });
+    setRound((prev) => prev + 1);
     setGameStarted(true);
   };
 
   return (
     <>
       <div className="flex justify-between mb-4 gap-4">
-        <Input label="Points" value={points} setValue={setPoints} step={50} />
+        <Input
+          label="Points"
+          value={points}
+          setValue={setPoints}
+          step={50}
+          max={Number(total)?.toFixed(0)}
+        />
         <Input
           label="Multiplier"
           value={multiplier}
           setValue={setMultiplier}
           step={0.25}
+          max={10}
         />
       </div>
       <button

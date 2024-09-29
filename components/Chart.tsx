@@ -22,6 +22,7 @@ export default function Charts({}) {
     setUserList,
     resultValue,
     gameStarted,
+    setGameStarted,
     setShowRanking,
     speed,
   } = useGlobalContext();
@@ -87,25 +88,27 @@ export default function Charts({}) {
             let newTotal;
 
             if (user.multiplier > thresholdMultiplier) {
-              // multiplier küçükse sadece totalden point çıkar
               newTotal = user.total - user.point;
             } else {
-              // multiplier büyükse totalden pointi çıkar, sonra multiplier ile pointi çarpıp ekle
               newTotal = user.total - user.point + user.point * user.multiplier;
             }
 
+            // Ensure newTotal is not less than zero
+            newTotal = Math.max(newTotal, 0);
+
             return {
               ...user,
-              total: newTotal, // Güncellenmiş total değeri
+              total: newTotal,
             };
           }
-          return user; // Şartı sağlamayan kullanıcılar olduğu gibi kalır
+          return user;
         });
 
-        setUserList(updatedList); // Güncellenmiş listeyi kaydet
+        setUserList(updatedList);
       };
       updateTotals(Number(resultValue));
       setShowRanking(true);
+      setGameStarted(false);
     }, animationDuration());
 
     return () => clearTimeout(timeout);
@@ -114,7 +117,7 @@ export default function Charts({}) {
   return (
     <>
       <div className="flex justify-between mb-4 gap-4">
-        <InfoBox icon={<Medal />} value={total} />
+        <InfoBox icon={<Medal />} value={total?.toFixed(0)} />
         <InfoBox icon={<Person />} value={user?.userName} />
         <InfoBox icon={<Clock />} value={user.userName && "21:30"} />
       </div>

@@ -9,6 +9,7 @@ const GlobalContext = createContext({
 });
 
 export const GlobalContextProvider = ({ children }) => {
+  const [round, setRound] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [showRanking, setShowRanking] = useState(false);
   const [resultValue, setResultValue] = useState(0.0);
@@ -77,7 +78,7 @@ export const GlobalContextProvider = ({ children }) => {
       );
       setResultValue(getRandomDecimal());
     }
-  }, [user.point]);
+  }, [round]);
 
   return (
     <GlobalContext.Provider
@@ -86,6 +87,8 @@ export const GlobalContextProvider = ({ children }) => {
         setUser,
         gameStarted,
         setGameStarted,
+        round,
+        setRound,
         showRanking,
         setShowRanking,
         resultValue,
