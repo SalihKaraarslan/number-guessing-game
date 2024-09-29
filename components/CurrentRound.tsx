@@ -6,11 +6,13 @@ import { useGlobalContext } from "@/app/Context/store";
 import { getRandomDecimal } from "@/lib/utils";
 
 export default function CurrentRound() {
-  const { user, setUser, userList, setResultValue, setGameStarted } =
+  const { user, setUser, userList, setGameStarted, showRanking, resultValue } =
     useGlobalContext();
 
   const [points, setPoints] = useState(100);
   const [multiplier, setMultiplier] = useState(2.15);
+
+  const sortedUserList = userList.sort((a, b) => a.id - b.id);
 
   const handleClickStart = () => {
     setUser({
@@ -24,12 +26,12 @@ export default function CurrentRound() {
   return (
     <>
       <div className="flex justify-between mb-4 gap-4">
-        <Input label="Points" value={points} setValue={setPoints} />
+        <Input label="Points" value={points} setValue={setPoints} step={50} />
         <Input
           label="Multiplier"
           value={multiplier}
           setValue={setMultiplier}
-          step={0.01}
+          step={0.25}
         />
       </div>
       <button
@@ -53,22 +55,50 @@ export default function CurrentRound() {
               </tr>
             </thead>
             <tbody>
-              {userList.map((item, index) => (
-                <tr
-                  key={item}
-                  className={`text-xs text-gray-300 ${index % 2 === 0 ? "bg-[#1A232C]" : "bg-[#262E39]"} hover:bg-[#475062]`}
-                >
-                  <td className="py-3 px-2 text-center truncate">
-                    {item.userName || "-"}
-                  </td>
-                  <td className="py-3 pl-24 text-center truncate">
-                    {item.point || "-"}
-                  </td>
-                  <td className="py-3  text-center truncate">
-                    {item.multiplier || "-"}
-                  </td>
-                </tr>
-              ))}
+              {showRanking
+                ? sortedUserList.map((item, index) => (
+                    <tr
+                      key={item}
+                      className={`text-xs font-bold  ${
+                        Number(resultValue) > item.multiplier &&
+                        (item.multiplier * item.point).toFixed(0) > 0
+                          ? "text-[#52A67D]"
+                          : "text-[#B07678]"
+                      } ${index % 2 === 0 ? "bg-[#1A232C]" : "bg-[#262E39]"} hover:bg-[#475062]`}
+                    >
+                      <td className="py-3 px-2 text-center truncate">
+                        {item.userName === user.userName
+                          ? "You"
+                          : item.userName || "-"}
+                      </td>
+                      <td className="py-3 pl-24 text-center truncate  ">
+                        {Number(resultValue) > item.multiplier
+                          ? (item.multiplier * item.point).toFixed(0)
+                          : showRanking
+                            ? 0
+                            : "-"}
+                      </td>
+                      <td className="py-3  text-center truncate">
+                        {item.multiplier || "-"}
+                      </td>
+                    </tr>
+                  ))
+                : sortedUserList.map((item, index) => (
+                    <tr
+                      key={item}
+                      className={`text-xs text-gray-300 ${index % 2 === 0 ? "bg-[#1A232C]" : "bg-[#262E39]"} hover:bg-[#475062]`}
+                    >
+                      <td className="py-3 px-2 text-center truncate">
+                        {item.userName || "-"}
+                      </td>
+                      <td className="py-3 pl-24 text-center truncate">
+                        {item.point || "-"}
+                      </td>
+                      <td className="py-3  text-center truncate">
+                        {item.multiplier || "-"}
+                      </td>
+                    </tr>
+                  ))}
             </tbody>
           </table>
         </div>

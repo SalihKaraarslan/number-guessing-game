@@ -25,6 +25,7 @@ export default function Input({ label, value, setValue, step = 1, min = 0 }) {
           value={
             typeof value === "number" ? value.toFixed(step < 1 ? 2 : 0) : value
           }
+          type="number"
           onChange={(e) =>
             setValue(
               Math.max(
@@ -37,7 +38,6 @@ export default function Input({ label, value, setValue, step = 1, min = 0 }) {
           step={step}
           min={min}
           aria-label={label}
-          style={{ WebkitAppearance: "none", MozAppearance: "textfield" }}
         />
         <button
           className="p-1 mx-2 text-gray-400 hover:text-white border border-gray-700 rounded-md bg-gray-800 hover:bg-gray-700"

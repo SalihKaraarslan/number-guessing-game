@@ -9,6 +9,7 @@ export default function Welcome() {
 
   const handleAccept = () => {
     setUser({
+      id: 0,
       userName: inputValue,
       total: 1000,
       point: null,

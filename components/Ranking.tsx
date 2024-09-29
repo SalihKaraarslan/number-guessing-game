@@ -1,6 +1,12 @@
+/* eslint-disable padding-line-between-statements */
+import { useGlobalContext } from "@/app/Context/store";
 import { FaRankingStar } from "react-icons/fa6";
 
 export default function Ranking() {
+  const { userList, resultValue, user, showRanking } = useGlobalContext();
+
+  const sortedUserList = userList.sort((a, b) => b.total - a.total);
+  const list = user?.userName && showRanking ? sortedUserList : [1, 2, 3, 4, 5];
   return (
     <div className="rounded-lg">
       <div className="flex items-center mb-2  ">
@@ -11,20 +17,30 @@ export default function Ranking() {
         <table className="w-full">
           <thead>
             <tr className="text-xs font-medium  text-gray-400 ">
-              <th className="py-1 px-8 text-left">No.</th>
+              <th className="py-1 px-2 text-center">No.</th>
               <th className="py-1 px-8 text-center">Name</th>
-              <th className="py-1 px-12 text-right">Score</th>
+              <th className="py-1 px-2 text-center">Score</th>
             </tr>
           </thead>
           <tbody>
-            {[1, 2, 3, 4, 5].map((num) => (
+            {list.map((item, index) => (
               <tr
-                key={num}
-                className={`text-xs text-gray-300 ${num % 2 === 0 ? "bg-[#1A232C]" : "bg-[#262E39]"} hover:bg-[#475062]`}
+                key={item}
+                className={`text-xs font-bold text-gray-300 ${index % 2 === 0 ? "bg-[#1A232C]" : "bg-[#262E39]"} hover:bg-[#475062]`}
               >
-                <td className="py-3 px-8 text-left">{num}</td>
-                <td className="py-3 px-8 text-center">-</td>
-                <td className="py-3 px-16 text-right">-</td>
+                <td className="py-3 px-2 text-center">{index + 1}</td>
+                <td className="py-3 px-8 text-center">
+                  {item.userName === user.userName
+                    ? "You"
+                    : item.userName || "-"}
+                </td>
+                <td className="py-3 px-2 text-center">
+                  {Number(resultValue) > item.multiplier
+                    ? (item.multiplier * item.point).toFixed(0)
+                    : showRanking
+                      ? 0
+                      : "-"}
+                </td>
               </tr>
             ))}
           </tbody>

@@ -16,23 +16,35 @@ import { generateData } from "@/lib/utils";
 import { useGlobalContext } from "@/app/Context/store";
 
 export default function Charts({}) {
-  const { user, resultValue, gameStarted, setGameStarted, speed } =
-    useGlobalContext();
+  const {
+    user,
+    userList,
+    setUserList,
+    resultValue,
+    gameStarted,
+    setShowRanking,
+    speed,
+  } = useGlobalContext();
 
   const data = generateData(Number(resultValue).toFixed(0));
+
+  const total = userList.filter(
+    (player) => player.userName === user.userName
+  )[0]?.total;
+  console.log("total", total);
 
   const animationDuration = () => {
     switch (speed) {
       case 1:
-        return 10000;
+        return 6000;
       case 2:
-        return 5000;
+        return 4000;
       case 3:
         return 3000;
       case 4:
         return 2000;
       case 5:
-        return 1000;
+        return 1500;
       default:
         return 2000;
     }
@@ -70,8 +82,31 @@ export default function Charts({}) {
       return;
     }
     const timeout = setTimeout(() => {
-      setGameStarted(false);
-      console.log("animatin Enddddd");
+      const updateTotals = (thresholdMultiplier) => {
+        const updatedList = userList.map((user) => {
+          if (user.point !== null && user.multiplier !== null) {
+            let newTotal;
+
+            if (user.multiplier > thresholdMultiplier) {
+              // multiplier küçükse sadece totalden point çıkar
+              newTotal = user.total - user.point;
+            } else {
+              // multiplier büyükse totalden pointi çıkar, sonra multiplier ile pointi çarpıp ekle
+              newTotal = user.total - user.point + user.point * user.multiplier;
+            }
+
+            return {
+              ...user,
+              total: newTotal, // Güncellenmiş total değeri
+            };
+          }
+          return user; // Şartı sağlamayan kullanıcılar olduğu gibi kalır
+        });
+
+        setUserList(updatedList); // Güncellenmiş listeyi kaydet
+      };
+      updateTotals(Number(resultValue));
+      setShowRanking(true);
     }, animationDuration());
 
     return () => clearTimeout(timeout);
@@ -80,7 +115,7 @@ export default function Charts({}) {
   return (
     <>
       <div className="flex justify-between mb-4 gap-4">
-        <InfoBox icon={<Medal />} value={user?.total} />
+        <InfoBox icon={<Medal />} value={total} />
         <InfoBox icon={<Person />} value={user?.userName} />
         <InfoBox icon={<Clock />} value={user.userName && "21:30"} />
       </div>

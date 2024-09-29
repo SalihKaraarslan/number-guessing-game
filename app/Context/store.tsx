@@ -14,6 +14,7 @@ export const GlobalContextProvider = ({ children }) => {
   const [resultValue, setResultValue] = useState(0.0);
   const [speed, setSpeed] = useState(1);
   const [user, setUser] = useState({
+    id: null,
     userName: null,
     total: null,
     point: null,
@@ -22,24 +23,28 @@ export const GlobalContextProvider = ({ children }) => {
 
   const [userList, setUserList] = useState([
     {
+      id: 1,
       userName: "CPU 1",
       total: 1000,
       point: null,
       multiplier: null,
     },
     {
+      id: 2,
       userName: "CPU 2",
       total: 1000,
       point: null,
       multiplier: null,
     },
     {
+      id: 3,
       userName: "CPU 3",
       total: 1000,
       point: null,
       multiplier: null,
     },
     {
+      id: 4,
       userName: "CPU 4",
       total: 1000,
       point: null,
