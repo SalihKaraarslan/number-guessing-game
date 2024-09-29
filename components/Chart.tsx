@@ -31,7 +31,6 @@ export default function Charts({}) {
   const total = userList.filter(
     (player) => player.userName === user.userName
   )[0]?.total;
-  console.log("total", total);
 
   const animationDuration = () => {
     switch (speed) {

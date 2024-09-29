@@ -1,5 +1,29 @@
+/* eslint-disable padding-line-between-statements */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useRef, useState } from "react";
 import { IoMdChatbubbles } from "react-icons/io";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:3001");
+
 export default function Chat() {
+  const user1 = useRef(null);
+
+  useEffect(() => {
+    socket.on("recieve_message", (msg) => {
+      console.log("recieve_message");
+    });
+
+    socket.on("user_typing", (data) => {});
+
+    socket.on("new_user", (newUser) => {});
+
+    return () => {
+      socket.off("recieve_message");
+      socket.off("user_typing");
+      socket.off("new_user");
+    };
+  });
   return (
     <div className="rounded-lg">
       <div className="flex items-center mb-2">
