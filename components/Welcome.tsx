@@ -8,13 +8,21 @@ export default function Welcome() {
   const isInputValid = inputValue.length >= 3;
 
   const handleAccept = () => {
-    setUser({
-      id: 0,
-      userName: inputValue,
-      total: 1000,
-      point: null,
-      multiplier: null,
-    });
+    if (isInputValid) {
+      setUser({
+        id: 0,
+        userName: inputValue,
+        total: 1000,
+        point: null,
+        multiplier: null,
+      });
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && isInputValid) {
+      handleAccept();
+    }
   };
 
   return (
@@ -28,19 +36,32 @@ export default function Welcome() {
             Please Insert Your Name
           </p>
           <input
-            className="w-full px-3 py-3 bg-[#151A21] border border-gray-800 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+            className={`w-full px-3 py-3 bg-[#151A21] border rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent ${
+              !isInputValid && inputValue.length > 0
+                ? "border-red-500"
+                : "border-gray-800"
+            }`}
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            aria-label="Username input"
+            required
           />
+          {!isInputValid && inputValue.length > 0 && (
+            <p className="text-red-500 text-xs text-center">
+              Name must be at least 3 characters long
+            </p>
+          )}
           <button
             onClick={handleAccept}
             className={`w-full py-3 text-white font-semibold rounded-md transition duration-300 ${
               isInputValid
-                ? "bg-gradient-to-r from-[#E74189] to-[#FC6953] "
+                ? "bg-gradient-to-r from-[#E74189] to-[#FC6953]"
                 : "bg-gray-500 cursor-not-allowed"
             }`}
             disabled={!isInputValid}
+            aria-label="Accept username"
           >
             Accept
           </button>

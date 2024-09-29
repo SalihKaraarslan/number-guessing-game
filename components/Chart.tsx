@@ -15,7 +15,12 @@ import Clock from "@/public/Clock";
 import { generateData } from "@/lib/utils";
 import { useGlobalContext } from "@/app/Context/store";
 
-export default function Charts({}) {
+interface Data {
+  name: string;
+  value: number;
+}
+
+export default function Charts() {
   const {
     user,
     userList,
@@ -27,13 +32,13 @@ export default function Charts({}) {
     speed,
   } = useGlobalContext();
 
-  const data = generateData(Number(resultValue).toFixed(0));
+  const data: Data[] = generateData(Number(resultValue).toFixed(0));
 
-  const total = userList.filter(
+  const total = userList.find(
     (player) => player.userName === user.userName
-  )[0]?.total;
+  )?.total;
 
-  const animationDuration = () => {
+  const animationDuration = (): number => {
     switch (speed) {
       case 1:
         return 6000;
@@ -50,15 +55,15 @@ export default function Charts({}) {
     }
   };
 
-  const counterRef = useRef(null);
-  const startCount = useRef(0);
+  const counterRef = useRef<HTMLHeadingElement | null>(null);
+  const startCount = useRef<number>(0);
   const target = resultValue;
 
   useEffect(() => {
     const startTime = performance.now();
     const duration = animationDuration();
 
-    const incrementCount = (currentTime) => {
+    const incrementCount = (currentTime: number) => {
       const elapsedTime = currentTime - startTime;
       const progress = Math.min(elapsedTime / duration, 1);
 
@@ -82,7 +87,7 @@ export default function Charts({}) {
       return;
     }
     const timeout = setTimeout(() => {
-      const updateTotals = (thresholdMultiplier) => {
+      const updateTotals = (thresholdMultiplier: number) => {
         const updatedList = userList.map((user) => {
           if (user.point !== null && user.multiplier !== null) {
             let newTotal;
@@ -92,8 +97,6 @@ export default function Charts({}) {
             } else {
               newTotal = user.total - user.point + user.point * user.multiplier;
             }
-
-            // Ensure newTotal is not less than zero
             newTotal = Math.max(newTotal, 0);
 
             return {
@@ -112,7 +115,14 @@ export default function Charts({}) {
     }, animationDuration());
 
     return () => clearTimeout(timeout);
-  }, [resultValue, gameStarted]);
+  }, [
+    resultValue,
+    gameStarted,
+    userList,
+    setUserList,
+    setShowRanking,
+    setGameStarted,
+  ]);
 
   return (
     <>
@@ -121,7 +131,7 @@ export default function Charts({}) {
         <InfoBox icon={<Person />} value={user?.userName} />
         <InfoBox icon={<Clock />} value={user.userName && "21:30"} />
       </div>
-      <div className="bg-[#242A39] rounded-lg p-8 border border-gray-700  ">
+      <div className="bg-[#242A39] rounded-lg p-8 border border-gray-700">
         <ResponsiveContainer width={"100%"} height={450}>
           <LineChart
             width={800}
@@ -143,18 +153,16 @@ export default function Charts({}) {
             <Legend
               verticalAlign="top"
               height={36}
-              content={(props) => {
-                return (
-                  <div className="flex items-center justify-center">
-                    <h2
-                      ref={counterRef}
-                      className="text-[#F3586A] font-bold text-7xl text-center pt-8 "
-                    >
-                      0x
-                    </h2>
-                  </div>
-                );
-              }}
+              content={() => (
+                <div className="flex items-center justify-center">
+                  <h2
+                    ref={counterRef}
+                    className="text-[#F3586A] font-bold text-7xl text-center pt-8"
+                  >
+                    0x
+                  </h2>
+                </div>
+              )}
             />
             <XAxis
               dataKey="name"
@@ -175,10 +183,20 @@ export default function Charts({}) {
   );
 }
 
-const CustomizedDot = (props) => {
-  const { cx, cy, value, last } = props;
+interface CustomizedDotProps {
+  cx?: number;
+  cy?: number;
+  value?: number | null;
+  last?: number;
+}
 
-  if (value === null || value == 0 || value != Math.round(Number(last))) {
+const CustomizedDot: React.FC<CustomizedDotProps> = ({
+  cx,
+  cy,
+  value,
+  last,
+}) => {
+  if (value === null || value === 0 || value !== Math.round(Number(last))) {
     return null;
   }
 

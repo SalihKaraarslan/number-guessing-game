@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-3 gap-5 ">
+      <div className="grid grid-cols-3 gap-5">
         <div className="col-span-1">
           {user.userName ? (
             <>
@@ -23,11 +23,11 @@ export default function Home() {
             <Welcome />
           )}
         </div>
-        <div className="col-span-2 ">
+        <div className="col-span-2">
           <Chart />
         </div>
       </div>
-      <div className="grid grid-cols-2 my-6 gap-5 ">
+      <div className="grid grid-cols-2 my-6 gap-5">
         <div className="col-span-1">
           <Ranking />
         </div>

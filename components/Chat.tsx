@@ -1,38 +1,50 @@
-/* eslint-disable padding-line-between-statements */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useGlobalContext } from "@/app/Context/store";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { IoMdChatbubbles } from "react-icons/io";
 import { io } from "socket.io-client";
+
+interface Message {
+  user: string;
+  text: string;
+}
 
 const socket = io("http://localhost:3001");
 
 export default function Chat() {
   const { user } = useGlobalContext();
-  const [messages, setMessages] = useState([]); // State to store messages
-  const [inputMessage, setInputMessage] = useState(""); // State for input message
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputMessage, setInputMessage] = useState<string>("");
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
-    // Listen for incoming messages
-    socket.on("recieve_message", (msg) => {
+    socket.on("recieve_message", (msg: Message) => {
       setMessages((prevMessages) => [...prevMessages, msg]);
     });
 
-    // Cleanup function to avoid memory leaks
     return () => {
       socket.off("recieve_message");
     };
   }, []);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const handleSendMessage = () => {
     if (inputMessage.trim()) {
-      const msg = {
-        user: user?.userName || "anonymous user", // Replace with actual user data if available
+      const msg: Message = {
+        user: user?.userName || "anonymous user",
         text: inputMessage,
       };
       setMessages((prevMessages) => [...prevMessages, msg]);
-      socket.emit("send_message", msg); // Emit message to the server
-      setInputMessage(""); // Clear input field
+      socket.emit("send_message", msg);
+      setInputMessage("");
     }
   };
 
@@ -54,17 +66,18 @@ export default function Chat() {
               </span>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
         <div className="bg-[#37404E] p-3 flex items-center">
           <input
             className="flex-grow bg-[#1A232C] text-white border-none rounded-md px-3 h-10 mr-2 focus:outline-none focus:ring-2"
             type="text"
             value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)} // Update input state
+            onChange={(e) => setInputMessage(e.target.value)}
           />
           <button
             className="w-24 h-10 bg-gradient-to-r from-[#E74189] to-[#FC6953] text-white font-semibold text-md rounded-md hover:opacity-70 transition-opacity duration-300"
-            onClick={handleSendMessage} // Handle message sending
+            onClick={handleSendMessage}
           >
             Send
           </button>

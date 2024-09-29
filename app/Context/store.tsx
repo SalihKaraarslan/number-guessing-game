@@ -1,20 +1,77 @@
 "use client";
 
 import { getRandomDecimal, getRandomMultipleOf50 } from "@/lib/utils";
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
-const GlobalContext = createContext({
-  userName: "",
-  setUserName: (): string => "",
+interface User {
+  id: number | null;
+  userName: string | null;
+  total: number | null;
+  point: number | null;
+  multiplier: number | null;
+}
+
+interface GlobalContextType {
+  user: User;
+  setUser: Dispatch<SetStateAction<User>>;
+  gameStarted: boolean;
+  setGameStarted: Dispatch<SetStateAction<boolean>>;
+  round: number;
+  setRound: Dispatch<SetStateAction<number>>;
+  showRanking: boolean;
+  setShowRanking: Dispatch<SetStateAction<boolean>>;
+  resultValue: number;
+  setResultValue: Dispatch<SetStateAction<number>>;
+  speed: number;
+  setSpeed: Dispatch<SetStateAction<number>>;
+  userList: User[];
+  setUserList: Dispatch<SetStateAction<User[]>>;
+}
+
+const GlobalContext = createContext<GlobalContextType>({
+  user: {
+    id: null,
+    userName: null,
+    total: null,
+    point: null,
+    multiplier: null,
+  },
+  setUser: () => {},
+  gameStarted: false,
+  setGameStarted: () => {},
+  round: 0,
+  setRound: () => {},
+  showRanking: false,
+  setShowRanking: () => {},
+  resultValue: 0.0,
+  setResultValue: () => {},
+  speed: 1,
+  setSpeed: () => {},
+  userList: [],
+  setUserList: () => {},
 });
 
-export const GlobalContextProvider = ({ children }) => {
-  const [round, setRound] = useState(0);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [showRanking, setShowRanking] = useState(false);
-  const [resultValue, setResultValue] = useState(0.0);
-  const [speed, setSpeed] = useState(1);
-  const [user, setUser] = useState({
+interface GlobalContextProviderProps {
+  children: ReactNode;
+}
+
+export const GlobalContextProvider = ({
+  children,
+}: GlobalContextProviderProps) => {
+  const [round, setRound] = useState<number>(0);
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
+  const [showRanking, setShowRanking] = useState<boolean>(false);
+  const [resultValue, setResultValue] = useState<number>(0.0);
+  const [speed, setSpeed] = useState<number>(1);
+  const [user, setUser] = useState<User>({
     id: null,
     userName: null,
     total: null,
@@ -22,7 +79,7 @@ export const GlobalContextProvider = ({ children }) => {
     multiplier: null,
   });
 
-  const [userList, setUserList] = useState([
+  const [userList, setUserList] = useState<User[]>([
     {
       id: 1,
       userName: "CPU 1",
@@ -78,7 +135,7 @@ export const GlobalContextProvider = ({ children }) => {
       );
       setResultValue(getRandomDecimal());
     }
-  }, [round]);
+  }, [round, gameStarted, user]);
 
   return (
     <GlobalContext.Provider

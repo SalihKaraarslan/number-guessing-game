@@ -10,6 +10,7 @@ export default function CurrentRound() {
     user,
     setUser,
     userList,
+    gameStarted,
     setGameStarted,
     showRanking,
     resultValue,
@@ -63,6 +64,7 @@ export default function CurrentRound() {
         />
       </div>
       <button
+        disabled={gameStarted}
         onClick={handleClickStart}
         className="w-full py-3 mb-5 px-4 bg-gradient-to-r from-[#E74189] to-[#FC6953] text-white font-semibold text-lg rounded-md hover:opacity-70 transition-opacity duration-300"
       >
