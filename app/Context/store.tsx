@@ -1,14 +1,7 @@
 "use client";
 
 import { getRandomDecimal, getRandomMultipleOf50 } from "@/lib/utils";
-import {
-  createContext,
-  useContext,
-  Dispatch,
-  SetStateAction,
-  useState,
-  useEffect,
-} from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const GlobalContext = createContext({
   userName: "",
@@ -17,8 +10,9 @@ const GlobalContext = createContext({
 
 export const GlobalContextProvider = ({ children }) => {
   const [gameStarted, setGameStarted] = useState(false);
+  const [showRanking, setShowRanking] = useState(false);
   const [resultValue, setResultValue] = useState(0.0);
-  const [speed, setSpeed] = useState(null);
+  const [speed, setSpeed] = useState(1);
   const [user, setUser] = useState({
     userName: null,
     total: null,
@@ -87,6 +81,8 @@ export const GlobalContextProvider = ({ children }) => {
         setUser,
         gameStarted,
         setGameStarted,
+        showRanking,
+        setShowRanking,
         resultValue,
         setResultValue,
         speed,

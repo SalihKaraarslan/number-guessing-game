@@ -16,9 +16,27 @@ import { generateData } from "@/lib/utils";
 import { useGlobalContext } from "@/app/Context/store";
 
 export default function Charts({}) {
-  const { user, resultValue } = useGlobalContext();
+  const { user, resultValue, gameStarted, setGameStarted, speed } =
+    useGlobalContext();
 
   const data = generateData(Number(resultValue).toFixed(0));
+
+  const animationDuration = () => {
+    switch (speed) {
+      case 1:
+        return 10000;
+      case 2:
+        return 5000;
+      case 3:
+        return 3000;
+      case 4:
+        return 2000;
+      case 5:
+        return 1000;
+      default:
+        return 2000; // veya başka bir varsayılan değer
+    }
+  };
 
   const counterRef = useRef(null);
   const startCount = useRef(0);
@@ -27,7 +45,7 @@ export default function Charts({}) {
   useEffect(() => {
     const incrementCount = () => {
       if (startCount.current < target) {
-        startCount.current += 0.025;
+        startCount.current += 0.005; // Hızı ayarlamak için
         if (counterRef.current) {
           counterRef.current.innerText =
             Math.min(startCount.current.toFixed(2), target).toFixed(2) + "x";
@@ -41,6 +59,17 @@ export default function Charts({}) {
       startCount.current = target;
     };
   }, [target]);
+
+  useEffect(() => {
+    if (!gameStarted) {
+      return;
+    }
+    const timeout = setTimeout(() => {
+      setGameStarted(false);
+    }, animationDuration()); // Animasyon süresiyle aynı olmalı
+
+    return () => clearTimeout(timeout); // Temizleme fonksiyonu
+  }, [resultValue, gameStarted]);
 
   return (
     <>
@@ -65,7 +94,7 @@ export default function Charts({}) {
                 strokeWidth={4}
                 // type="bump"
                 type="monotone"
-                animationDuration={2000}
+                animationDuration={animationDuration()}
                 animationEasing="ease-in-out"
               />
             )}

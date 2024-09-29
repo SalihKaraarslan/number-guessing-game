@@ -1,12 +1,15 @@
 "use client";
 
+import { useGlobalContext } from "@/app/Context/store";
 import { useState, useRef, useEffect } from "react";
 import { IoMdSpeedometer } from "react-icons/io";
 
 export default function SpeedSlider() {
-  const [speed, setSpeed] = useState(1);
+  const { speed, setSpeed } = useGlobalContext();
   const sliderRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
+
+  console.log("speed", speed);
 
   const updateSpeed = (clientX: number) => {
     if (sliderRef.current) {
