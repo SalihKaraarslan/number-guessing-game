@@ -9,8 +9,6 @@ export default function SpeedSlider() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
 
-  console.log("speed", speed);
-
   const updateSpeed = (clientX: number) => {
     if (sliderRef.current) {
       const rect = sliderRef.current.getBoundingClientRect();

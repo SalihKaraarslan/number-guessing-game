@@ -34,7 +34,7 @@ export default function Charts({}) {
       case 5:
         return 1000;
       default:
-        return 2000; // veya başka bir varsayılan değer
+        return 2000;
     }
   };
 
@@ -43,15 +43,20 @@ export default function Charts({}) {
   const target = resultValue;
 
   useEffect(() => {
-    const incrementCount = () => {
-      if (startCount.current < target) {
-        startCount.current += 0.005; // Hızı ayarlamak için
-        if (counterRef.current) {
-          counterRef.current.innerText =
-            Math.min(startCount.current.toFixed(2), target).toFixed(2) + "x";
-        }
-        requestAnimationFrame(incrementCount);
+    const startTime = performance.now();
+    const duration = animationDuration();
+
+    const incrementCount = (currentTime) => {
+      const elapsedTime = currentTime - startTime;
+      const progress = Math.min(elapsedTime / duration, 1);
+
+      startCount.current = progress * target;
+
+      if (counterRef.current) {
+        counterRef.current.innerText = startCount.current.toFixed(2) + "x";
       }
+
+      requestAnimationFrame(incrementCount);
     };
 
     requestAnimationFrame(incrementCount);
@@ -66,9 +71,10 @@ export default function Charts({}) {
     }
     const timeout = setTimeout(() => {
       setGameStarted(false);
-    }, animationDuration()); // Animasyon süresiyle aynı olmalı
+      console.log("animatin Enddddd");
+    }, animationDuration());
 
-    return () => clearTimeout(timeout); // Temizleme fonksiyonu
+    return () => clearTimeout(timeout);
   }, [resultValue, gameStarted]);
 
   return (
@@ -92,7 +98,6 @@ export default function Charts({}) {
                 dot={<CustomizedDot last={resultValue} />}
                 stroke="#F46161"
                 strokeWidth={4}
-                // type="bump"
                 type="monotone"
                 animationDuration={animationDuration()}
                 animationEasing="ease-in-out"
