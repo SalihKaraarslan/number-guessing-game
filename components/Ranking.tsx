@@ -1,4 +1,5 @@
 import { FaRankingStar } from "react-icons/fa6";
+
 export default function Ranking() {
   return (
     <div className="rounded-lg">

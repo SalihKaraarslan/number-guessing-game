@@ -18,7 +18,7 @@ export default function CurrentRound() {
           step={0.01}
         />
       </div>
-      <button className="w-full py-3 mb-4 px-4 bg-gradient-to-r from-[#E74189] to-[#FC6953] text-white font-semibold text-lg rounded-md hover:opacity-70 transition-opacity duration-300">
+      <button className="w-full py-3 mb-5 px-4 bg-gradient-to-r from-[#E74189] to-[#FC6953] text-white font-semibold text-lg rounded-md hover:opacity-70 transition-opacity duration-300">
         Start
       </button>
       <div className="rounded-lg">

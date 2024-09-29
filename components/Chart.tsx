@@ -6,52 +6,21 @@ import {
   ResponsiveContainer,
   XAxis,
   YAxis,
-  Tooltip,
   Legend,
 } from "recharts";
 import InfoBox from "./InfoBox";
 import Medal from "@/public/Medal";
 import Person from "@/public/Person";
 import Clock from "@/public/Clock";
+import { generateData } from "@/lib/utils";
 
-const generateData = (maxValue) => {
-  const data = [
-    { name: 0 },
-    { name: 1 },
-    { name: 2 },
-    { name: 3 },
-    { name: 4 },
-    { name: 5 },
-    { name: 6 },
-    { name: 7 },
-    { name: 8 },
-    { name: 9 },
-    { name: 10 },
-  ];
-
-  // Her bir elemanın value'sunu maxValue ile karşılaştırarak güncelle
-  for (let i = 0; i < data.length; i++) {
-    data[i].value =
-      i < maxValue ? (i * i) / maxValue : i == maxValue ? i : null;
-  }
-
-  return data;
-};
-// const data = [
-//   { name: 0, value: 0 },
-//   { name: 2, value: 0.5 },
-//   { name: 4, value: 2 },
-//   { name: 6, value: 3 },
-//   { name: 8, value: 4 },
-
-//   { name: 10, value: 8 },
-// ];
 const CustomizedDot = (props) => {
-  const { cx, cy, stroke, payload, value, last } = props;
+  const { cx, cy, value, last } = props;
 
-  if (value === null || value == 0 || value !== last) {
+  if (value === null || value == 0 || value != last) {
     return null;
   }
+
   return (
     <svg
       x={cx - 10}
@@ -67,7 +36,7 @@ const CustomizedDot = (props) => {
 };
 
 export default function Charts({}) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(0.0);
   const data = generateData(value);
 
   const counterRef = useRef(null);
@@ -77,12 +46,10 @@ export default function Charts({}) {
   useEffect(() => {
     const incrementCount = () => {
       if (startCount.current < target) {
-        // Değeri artır
-        startCount.current += 0.025; // Hızı burada ayarlayabilirsin
-        // DOM elemanını güncelle
+        startCount.current += 0.025;
         if (counterRef.current) {
           counterRef.current.innerText =
-            Math.min(startCount.current.toFixed(1), target) + " x";
+            Math.min(startCount.current.toFixed(2), target).toFixed(2) + " x";
         }
         requestAnimationFrame(incrementCount);
       }
@@ -102,12 +69,12 @@ export default function Charts({}) {
         <InfoBox icon={<Clock />} />
       </div>
       <div className="bg-[#242A39] rounded-lg p-8 border border-gray-700  ">
-        <ResponsiveContainer width={"100%"} height={400}>
+        <ResponsiveContainer width={"100%"} height={500}>
           <LineChart
             width={800}
             height={500}
             data={data}
-            margin={{ top: 50, right: 20, bottom: 5, left: 20 }}
+            margin={{ top: 50, right: 10, bottom: 5, left: 10 }}
           >
             {value !== 0 && (
               <Line
@@ -117,7 +84,7 @@ export default function Charts({}) {
                 strokeWidth={4}
                 // type="bump"
                 type="monotone"
-                animationDuration={2000}
+                animationDuration={1000}
                 animationEasing="ease-in-out"
               />
             )}
@@ -127,13 +94,9 @@ export default function Charts({}) {
               content={(props) => {
                 return (
                   <div className="flex items-center justify-center">
-                    {/* <div
-                    className="w-3 h-3 rounded-full bg-[#F46161] mr-2"
-                    style={{ boxShadow: "0px 0px 10px #F46161" }}
-                  ></div> */}
                     <h2
                       ref={counterRef}
-                      onClick={() => setValue(7)}
+                      onClick={() => setValue(9)}
                       className="text-[#F3586A] font-bold text-7xl text-center pt-8 "
                     >
                       0 x
@@ -145,13 +108,14 @@ export default function Charts({}) {
             <XAxis
               dataKey="name"
               ticks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-              tickCount={11}
-              type="number"
+              tickCount={12}
+              type="category"
               allowDecimals={true}
-              padding={{ left: 1, right: 0 }}
+              padding={{ left: -50, right: 20 }}
               tick={{ fill: "#A0AEC0" }}
               tickLine={false}
               tickMargin={10}
+              includeHidden={true}
             />
             <YAxis domain={[0, 10]} hide={true} />
           </LineChart>

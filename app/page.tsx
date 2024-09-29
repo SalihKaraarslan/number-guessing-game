@@ -7,8 +7,8 @@ import Welcome from "@/components/Welcome";
 
 export default function Home() {
   return (
-    <div className=" w-full">
-      <div className=" grid grid-cols-3 gap-5 ">
+    <div className="w-full">
+      <div className="grid grid-cols-3 gap-5 ">
         <div className="col-span-1">
           {/* <Welcome /> */}
           <CurrentRound />
@@ -18,7 +18,7 @@ export default function Home() {
           <Chart />
         </div>
       </div>
-      <div className=" grid grid-cols-2 my-6 gap-5 ">
+      <div className="grid grid-cols-2 my-6 gap-5 ">
         <div className="col-span-1">
           <Ranking />
         </div>

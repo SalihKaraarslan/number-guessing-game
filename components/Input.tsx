@@ -1,5 +1,3 @@
-"use client";
-
 import { FaCaretDown } from "react-icons/fa";
 
 export default function Input({ label, value, setValue, step = 1, min = 0 }) {
