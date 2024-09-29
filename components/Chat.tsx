@@ -1,24 +1,12 @@
+import { IoMdChatbubbles } from "react-icons/io";
 export default function Chat() {
   return (
     <div className="rounded-lg">
-      <div className="flex items-center mb-4">
-        <svg
-          className="w-6 h-6 mr-2 text-red-500"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-          />
-        </svg>
-        <h2 className="text-xl font-bold text-white">Chat</h2>
+      <div className="flex items-center mb-2">
+        <IoMdChatbubbles style={{ height: 20, width: 20, color: "#F2566D" }} />
+        <h2 className="text-xl font-bold ml-3 text-white">Chat</h2>
       </div>
-      <div className="bg-[#151A21]  border border-gray-800 rounded-xl overflow-hidden">
+      <div className="bg-[#1A232C] border border-gray-800 rounded-xl overflow-hidden">
         <div className="space-y-2 p-4 h-40 overflow-y-auto">
           <div className="flex items-start">
             <span className="bg-purple-700 text-xs px-1 rounded mr-2">

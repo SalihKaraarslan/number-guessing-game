@@ -9,6 +9,10 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import InfoBox from "./InfoBox";
+import Medal from "@/public/Medal";
+import Person from "@/public/Person";
+import Clock from "@/public/Clock";
 
 const generateData = (maxValue) => {
   const data = [
@@ -91,61 +95,68 @@ export default function Charts({}) {
   }, [target]);
 
   return (
-    <div className="bg-[#242A39] rounded-lg p-8 border border-gray-700  ">
-      <ResponsiveContainer width={"100%"} height={400}>
-        <LineChart
-          width={800}
-          height={500}
-          data={data}
-          margin={{ top: 50, right: 20, bottom: 5, left: 20 }}
-        >
-          {value !== 0 && (
-            <Line
-              dataKey="value"
-              dot={<CustomizedDot last={value} />}
-              stroke="#F46161"
-              strokeWidth={4}
-              // type="bump"
-              type="monotone"
-              animationDuration={2000}
-              animationEasing="ease-in-out"
-            />
-          )}
-          <Legend
-            verticalAlign="top"
-            height={36}
-            content={(props) => {
-              return (
-                <div className="flex items-center justify-center">
-                  {/* <div
+    <>
+      <div className="flex justify-between mb-4 gap-4">
+        <InfoBox icon={<Medal />} />
+        <InfoBox icon={<Person />} />
+        <InfoBox icon={<Clock />} />
+      </div>
+      <div className="bg-[#242A39] rounded-lg p-8 border border-gray-700  ">
+        <ResponsiveContainer width={"100%"} height={400}>
+          <LineChart
+            width={800}
+            height={500}
+            data={data}
+            margin={{ top: 50, right: 20, bottom: 5, left: 20 }}
+          >
+            {value !== 0 && (
+              <Line
+                dataKey="value"
+                dot={<CustomizedDot last={value} />}
+                stroke="#F46161"
+                strokeWidth={4}
+                // type="bump"
+                type="monotone"
+                animationDuration={2000}
+                animationEasing="ease-in-out"
+              />
+            )}
+            <Legend
+              verticalAlign="top"
+              height={36}
+              content={(props) => {
+                return (
+                  <div className="flex items-center justify-center">
+                    {/* <div
                     className="w-3 h-3 rounded-full bg-[#F46161] mr-2"
                     style={{ boxShadow: "0px 0px 10px #F46161" }}
                   ></div> */}
-                  <h2
-                    ref={counterRef}
-                    onClick={() => setValue(7)}
-                    className="text-[#F3586A] font-bold text-7xl text-center pt-8 "
-                  >
-                    0 x
-                  </h2>
-                </div>
-              );
-            }}
-          />
-          <XAxis
-            dataKey="name"
-            ticks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-            tickCount={11}
-            type="number"
-            allowDecimals={true}
-            padding={{ left: 1, right: 0 }}
-            tick={{ fill: "#A0AEC0" }}
-            tickLine={false}
-            tickMargin={10}
-          />
-          <YAxis domain={[0, 10]} hide={true} />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+                    <h2
+                      ref={counterRef}
+                      onClick={() => setValue(7)}
+                      className="text-[#F3586A] font-bold text-7xl text-center pt-8 "
+                    >
+                      0 x
+                    </h2>
+                  </div>
+                );
+              }}
+            />
+            <XAxis
+              dataKey="name"
+              ticks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+              tickCount={11}
+              type="number"
+              allowDecimals={true}
+              padding={{ left: 1, right: 0 }}
+              tick={{ fill: "#A0AEC0" }}
+              tickLine={false}
+              tickMargin={10}
+            />
+            <YAxis domain={[0, 10]} hide={true} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </>
   );
 }

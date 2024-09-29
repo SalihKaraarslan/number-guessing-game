@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { IoMdSpeedometer } from "react-icons/io";
 
 export default function SpeedSlider() {
   const [speed, setSpeed] = useState(1);
@@ -41,25 +42,12 @@ export default function SpeedSlider() {
   }, []);
 
   return (
-    <div className="bg-gray-900 rounded-lg w-full mt-6">
-      <div className="flex items-center mb-4">
-        <svg
-          className="w-6 h-6 mr-2 text-red-500"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-          />
-        </svg>
-        <h2 className="text-xl font-bold text-white">Speed</h2>
+    <div className=" w-full mt-6">
+      <div className="flex items-center mb-2">
+        <IoMdSpeedometer style={{ height: 20, width: 20, color: "#F2566D" }} />
+        <h2 className="text-xl font-bold ml-3 text-white">Speed</h2>
       </div>
-      <div className="bg-gray-800 rounded-md  pt-6 pb-4 px-4  border border-gray-700">
+      <div className="bg-gray-800 rounded-lg  pt-6 pb-4 px-4  border border-gray-700">
         <div
           ref={sliderRef}
           className="relative h-1 bg-gray-700 rounded-full "

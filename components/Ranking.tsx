@@ -1,22 +1,10 @@
+import { FaRankingStar } from "react-icons/fa6";
 export default function Ranking() {
   return (
     <div className="rounded-lg">
-      <div className="flex items-center mb-4">
-        <svg
-          className="w-6 h-6 mr-2 text-red-500"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-          />
-        </svg>
-        <h2 className="text-xl font-bold text-white">Ranking</h2>
+      <div className="flex items-center mb-2  ">
+        <FaRankingStar style={{ height: 20, width: 20, color: "#F2566D" }} />
+        <h2 className="text-xl font-bold ml-3 text-white">Ranking</h2>
       </div>
       <div className="bg-[#151A21]  border border-gray-800 rounded-xl overflow-hidden">
         <table className="w-full">
