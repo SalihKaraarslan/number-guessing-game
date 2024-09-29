@@ -3,6 +3,7 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { Providers } from "./providers";
 import { fontSans } from "@/config/fonts";
+import { GlobalContextProvider } from './Context/store';
 
 export const metadata: Metadata = {
   title: "Guessing Game",
@@ -36,7 +37,7 @@ export default function RootLayout({
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col ">
             <main className="container mx-auto max-w-screen-xl pt-40 px-6 flex-grow">
-              {children}
+            <GlobalContextProvider>{children}</GlobalContextProvider>
             </main>
           </div>
         </Providers>

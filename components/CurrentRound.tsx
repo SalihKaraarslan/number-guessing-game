@@ -2,10 +2,24 @@
 import { useState } from "react";
 import Input from "./Input";
 import { FaTrophy } from "react-icons/fa6";
+import { useGlobalContext } from "@/app/Context/store";
+import { getRandomDecimal } from "@/lib/utils";
 
 export default function CurrentRound() {
+  const { user, setUser, userList, setResultValue, setGameStarted } =
+    useGlobalContext();
+
   const [points, setPoints] = useState(100);
   const [multiplier, setMultiplier] = useState(2.15);
+
+  const handleClickStart = () => {
+    setUser({
+      ...user,
+      point: points,
+      multiplier: multiplier,
+    });
+    setGameStarted(true);
+  };
 
   return (
     <>
@@ -18,7 +32,10 @@ export default function CurrentRound() {
           step={0.01}
         />
       </div>
-      <button className="w-full py-3 mb-5 px-4 bg-gradient-to-r from-[#E74189] to-[#FC6953] text-white font-semibold text-lg rounded-md hover:opacity-70 transition-opacity duration-300">
+      <button
+        onClick={handleClickStart}
+        className="w-full py-3 mb-5 px-4 bg-gradient-to-r from-[#E74189] to-[#FC6953] text-white font-semibold text-lg rounded-md hover:opacity-70 transition-opacity duration-300"
+      >
         Start
       </button>
       <div className="rounded-lg">
@@ -30,20 +47,26 @@ export default function CurrentRound() {
           <table className="w-full">
             <thead>
               <tr className="text-xs font-medium  text-gray-400 ">
-                <th className="py-1 px-12 text-left">Name</th>
+                <th className="py-1 px-2 text-center">Name</th>
                 <th className="py-1 pl-24 text-center">Point</th>
-                <th className="py-1 px-8 text-right">Multiplier</th>
+                <th className="py-1  text-center">Multiplier</th>
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((num) => (
+              {userList.map((item, index) => (
                 <tr
-                  key={num}
-                  className={`text-xs text-gray-300 ${num % 2 === 0 ? "bg-[#1A232C]" : "bg-[#262E39]"} hover:bg-[#475062]`}
+                  key={item}
+                  className={`text-xs text-gray-300 ${index % 2 === 0 ? "bg-[#1A232C]" : "bg-[#262E39]"} hover:bg-[#475062]`}
                 >
-                  <td className="py-3 px-16 text-left">-</td>
-                  <td className="py-3 pl-24 text-center">-</td>
-                  <td className="py-3 px-16 text-right">-</td>
+                  <td className="py-3 px-2 text-center truncate">
+                    {item.userName || "-"}
+                  </td>
+                  <td className="py-3 pl-24 text-center truncate">
+                    {item.point || "-"}
+                  </td>
+                  <td className="py-3  text-center truncate">
+                    {item.multiplier || "-"}
+                  </td>
                 </tr>
               ))}
             </tbody>
