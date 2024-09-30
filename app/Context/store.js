@@ -11,34 +11,7 @@ import {
   SetStateAction,
 } from "react";
 
-interface User {
-  id: number | null;
-  userName: string | null;
-  total: number | null;
-  point: number | null;
-  multiplier: number | null;
-}
-
-interface GlobalContextType {
-  user: User;
-  setUser: Dispatch<SetStateAction<User>>;
-  gameStarted: boolean;
-  setGameStarted: Dispatch<SetStateAction<boolean>>;
-  round: number;
-  setRound: Dispatch<SetStateAction<number>>;
-  showRanking: boolean;
-  setShowRanking: Dispatch<SetStateAction<boolean>>;
-  resultValue: number;
-  setResultValue: Dispatch<SetStateAction<number>>;
-  chartValue: number;
-  setChartValue: Dispatch<SetStateAction<number>>;
-  speed: number;
-  setSpeed: Dispatch<SetStateAction<number>>;
-  userList: User[];
-  setUserList: Dispatch<SetStateAction<User[]>>;
-}
-
-const GlobalContext = createContext<GlobalContextType>({
+const GlobalContext = createContext({
   user: {
     id: null,
     userName: null,
@@ -63,20 +36,14 @@ const GlobalContext = createContext<GlobalContextType>({
   setUserList: () => {},
 });
 
-interface GlobalContextProviderProps {
-  children: ReactNode;
-}
-
-export const GlobalContextProvider = ({
-  children,
-}: GlobalContextProviderProps) => {
-  const [round, setRound] = useState<number>(0);
-  const [gameStarted, setGameStarted] = useState<boolean>(false);
-  const [showRanking, setShowRanking] = useState<boolean>(false);
-  const [resultValue, setResultValue] = useState<number>(0.0);
-  const [chartValue, setChartValue] = useState<number>(0.0);
-  const [speed, setSpeed] = useState<number>(2);
-  const [user, setUser] = useState<User>({
+const GlobalContextProvider = ({ children }) => {
+  const [round, setRound] = useState(0);
+  const [gameStarted, setGameStarted] = useState(false);
+  const [showRanking, setShowRanking] = useState(false);
+  const [resultValue, setResultValue] = useState(0.0);
+  const [chartValue, setChartValue] = useState(0.0);
+  const [speed, setSpeed] = useState(2);
+  const [user, setUser] = useState({
     id: null,
     userName: null,
     total: null,
@@ -84,7 +51,7 @@ export const GlobalContextProvider = ({
     multiplier: null,
   });
 
-  const [userList, setUserList] = useState<User[]>([
+  const [userList, setUserList] = useState([
     {
       id: 1,
       userName: "CPU 1",
@@ -170,4 +137,6 @@ export const GlobalContextProvider = ({
   );
 };
 
-export const useGlobalContext = () => useContext(GlobalContext);
+const useGlobalContext = () => useContext(GlobalContext);
+
+export { GlobalContextProvider, useGlobalContext };
