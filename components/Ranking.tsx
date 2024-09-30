@@ -4,9 +4,14 @@ import { FaRankingStar } from "react-icons/fa6";
 export default function Ranking() {
   const { userList, resultValue, user, showRanking } = useGlobalContext();
 
-  const sortedUserList = [...userList].sort(
-    (a, b) => (b.total || 0) - (a.total || 0)
-  );
+  const sortedUserList = [...userList].sort((a, b) => {
+    const aValue =
+      a.multiplier < resultValue ? a.multiplier * (a.point || 0) : 0;
+    const bValue =
+      b.multiplier < resultValue ? b.multiplier * (b.point || 0) : 0;
+
+    return bValue - aValue;
+  });
   const list =
     user?.userName && showRanking
       ? sortedUserList

@@ -30,6 +30,8 @@ interface GlobalContextType {
   setShowRanking: Dispatch<SetStateAction<boolean>>;
   resultValue: number;
   setResultValue: Dispatch<SetStateAction<number>>;
+  chartValue: number;
+  setChartValue: Dispatch<SetStateAction<number>>;
   speed: number;
   setSpeed: Dispatch<SetStateAction<number>>;
   userList: User[];
@@ -53,6 +55,8 @@ const GlobalContext = createContext<GlobalContextType>({
   setShowRanking: () => {},
   resultValue: 0.0,
   setResultValue: () => {},
+  chartValue: 0.0,
+  setChartValue: () => {},
   speed: 1,
   setSpeed: () => {},
   userList: [],
@@ -70,6 +74,7 @@ export const GlobalContextProvider = ({
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [showRanking, setShowRanking] = useState<boolean>(false);
   const [resultValue, setResultValue] = useState<number>(0.0);
+  const [chartValue, setChartValue] = useState<number>(0.0);
   const [speed, setSpeed] = useState<number>(2);
   const [user, setUser] = useState<User>({
     id: null,
@@ -133,7 +138,9 @@ export const GlobalContextProvider = ({
               }
         )
       );
-      setResultValue(getRandomDecimal());
+      const random = getRandomDecimal();
+      setResultValue(random);
+      setChartValue(random);
     }
   }, [round, gameStarted, user]);
 
@@ -150,6 +157,8 @@ export const GlobalContextProvider = ({
         setShowRanking,
         resultValue,
         setResultValue,
+        chartValue,
+        setChartValue,
         speed,
         setSpeed,
         userList,

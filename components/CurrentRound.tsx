@@ -12,6 +12,8 @@ export default function CurrentRound() {
     userList,
     gameStarted,
     setGameStarted,
+    setShowRanking,
+    setResultValue,
     showRanking,
     resultValue,
     setRound,
@@ -25,6 +27,8 @@ export default function CurrentRound() {
 
   const sortedUserList = userList.sort((a, b) => a.id - b.id);
 
+  const value = Number(resultValue);
+
   const handleClickStart = () => {
     if (points === 0 || multiplier === 0) {
       alert("Please enter valid points and multiplier");
@@ -36,6 +40,7 @@ export default function CurrentRound() {
       }
       return;
     }
+    setResultValue(0.0);
     setUser({
       ...user,
       point: points,
@@ -43,6 +48,7 @@ export default function CurrentRound() {
     });
     setRound((prev) => prev + 1);
     setGameStarted(true);
+    setShowRanking(false);
   };
 
   return (
@@ -90,7 +96,7 @@ export default function CurrentRound() {
                     <tr
                       key={item}
                       className={`text-xs font-bold  ${
-                        Number(resultValue) > item.multiplier &&
+                        value > item.multiplier &&
                         (item.multiplier * item.point).toFixed(0) > 0
                           ? "text-[#52A67D]"
                           : "text-[#B07678]"
@@ -102,7 +108,7 @@ export default function CurrentRound() {
                           : item.userName || "-"}
                       </td>
                       <td className="py-3 pl-24 text-center truncate  ">
-                        {Number(resultValue) > item.multiplier
+                        {value > item.multiplier
                           ? (item.multiplier * item.point).toFixed(0)
                           : showRanking
                             ? 0

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   LineChart,
   Line,
@@ -25,15 +25,16 @@ export default function Charts() {
     user,
     userList,
     setUserList,
-    resultValue,
     gameStarted,
     setGameStarted,
     setShowRanking,
     speed,
-    setResultValue,
+    chartValue,
+    setChartValue,
   } = useGlobalContext();
 
-  const data: Data[] = generateData(Number(resultValue).toFixed(0));
+  const data: Data[] = generateData(Number(chartValue).toFixed(0));
+  const [show, setShow] = useState(false);
 
   const total = userList.find(
     (player) => player.userName === user.userName
@@ -58,7 +59,7 @@ export default function Charts() {
 
   const counterRef = useRef<HTMLHeadingElement | null>(null);
   const startCount = useRef<number>(0);
-  const target = resultValue;
+  const target = chartValue;
 
   useEffect(() => {
     const startTime = performance.now();
@@ -87,6 +88,7 @@ export default function Charts() {
     if (!gameStarted) {
       return;
     }
+    setShow(true);
     const timeout = setTimeout(() => {
       const updateTotals = (thresholdMultiplier: number) => {
         const updatedList = userList.map((user) => {
@@ -110,18 +112,30 @@ export default function Charts() {
 
         setUserList(updatedList);
       };
-      updateTotals(Number(resultValue));
+
+      updateTotals(Number(chartValue));
       setShowRanking(true);
       setGameStarted(false);
-      const replay = confirm("Try Again?");
-      if (replay) {
-        setResultValue(0.0);
-      }
-    }, animationDuration() + 100);
 
-    return () => clearTimeout(timeout);
+      const nextTimeout = setTimeout(() => {
+        if (!show) {
+          return;
+        }
+        const replay = confirm("Try Again?");
+        if (replay) {
+          setChartValue(0.0);
+          clearTimeout(nextTimeout);
+        }
+        setShow(false);
+      }, 500);
+
+      return () => {
+        clearTimeout(nextTimeout);
+        clearTimeout(timeout);
+      };
+    }, animationDuration());
   }, [
-    resultValue,
+    chartValue,
     gameStarted,
     userList,
     setUserList,
@@ -144,10 +158,10 @@ export default function Charts() {
             data={data}
             margin={{ top: 5, right: 10, bottom: 5, left: 10 }}
           >
-            {resultValue !== 0 && (
+            {chartValue !== 0 && (
               <Line
                 dataKey="value"
-                dot={<CustomizedDot last={resultValue} />}
+                dot={<CustomizedDot last={chartValue} />}
                 stroke="#F46161"
                 strokeWidth={4}
                 type="monotone"
