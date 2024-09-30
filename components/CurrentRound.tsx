@@ -20,7 +20,7 @@ export default function CurrentRound() {
   } = useGlobalContext();
 
   const [points, setPoints] = useState(100);
-  const [multiplier, setMultiplier] = useState(2.15);
+  const [multiplier, setMultiplier] = useState(2.5);
   const total = userList.filter(
     (player) => player.userName === user.userName
   )[0]?.total;
@@ -30,9 +30,6 @@ export default function CurrentRound() {
   const value = Number(resultValue);
 
   const handleClickStart = () => {
-    if (points === 0 || multiplier === 0) {
-      alert("Please enter valid points and multiplier");
-    }
     if (total == 0) {
       const replay = confirm("Game Over! Play Again?");
       if (replay) {
