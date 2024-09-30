@@ -12,7 +12,32 @@ const socket = io("http://localhost:3001");
 
 export default function Chat() {
   const { user } = useGlobalContext();
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      user: "CPU 1",
+      text: "hi guys",
+    },
+    {
+      user: "CPU 2",
+      text: "Hiiiiiiii men",
+    },
+    {
+      user: "CPU 1",
+      text: "I could play this game for hours!",
+    },
+    {
+      user: "CPU 3",
+      text: "I'm the best!",
+    },
+    {
+      user: "CPU 4",
+      text: "Let's team up and dominate!",
+    },
+    {
+      user: "CPU 3",
+      text: "I hope you're ready to lose!",
+    },
+  ]);
   const [inputMessage, setInputMessage] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
