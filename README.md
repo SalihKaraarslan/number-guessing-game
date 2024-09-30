@@ -76,7 +76,3 @@ To run this project locally, follow these steps:
 ## Contributing
 
 We welcome contributions to improve the game! Please feel free to submit issues or pull requests.
-
-## License
-
-[Include your license information here]
